@@ -33,8 +33,6 @@ class AdminEventController extends AbstractController
         $dm->persist($event);
         $dm->flush();
 
-
-        */
         return new Response('Created event id '.$event->getId());
     }
 
