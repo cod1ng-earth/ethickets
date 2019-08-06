@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, FlatList, SectionList, View, StyleSheet } from 'react-native';
+import { Text, FlatList, SectionList, View, StyleSheet, Modal, TouchableHighlight } from 'react-native';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import EventListItem from "./EventListItem";
 
@@ -13,6 +13,9 @@ export default class EventsScreen extends React.Component {
             {id: 3 ,eventTitle: 'Pearl Jam Berlin 2020', eventDescription: "Seattle guys are Back with all the hits"},
             {id: 4 ,eventTitle: 'Tool 2019', eventDescription: "Industrial/Psychodelic Rock will see it's great come back"},
         ]};
+        this.state.modalVisible = false;
+        this.state.chosenEvent = null;
+        this.onCart = this.onCart.bind(this);
     }
 
     async componentDidMount(){
@@ -33,31 +36,58 @@ export default class EventsScreen extends React.Component {
         }
     }
 
+    onCart(chosenEvent){
+        this.setState({modalVisible : true, chosenEvent })
+    }
+
 
     render() {
-        console.log(this.state.fetchList);
         return (
-            <View containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+            <View style={styles.container}>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                    }}>
+                    <View style={styles.modal}>
+                        <View>
+                            <Text>{this.state.chosenEvent ? this.state.chosenEvent.title : '' }</Text>
+
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.setState({modalVisible : !this.state.modalVisible});
+                                }}>
+                                <Text>Hide Modal</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </Modal>
+
                 <FlatList
                     data={this.state.fetchList}
                     renderItem={({item}) => (
                         <EventListItem
                             title={item.eventTitle}
                             description={item.eventDescription}
+                            onCart={this.onCart}
                         />
                         )}
                     keyExtractor={item => item.id}
                 />
 
             </View>
-    );
+        );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 22
+        paddingTop: 22,
+        borderTopWidth: 80,
+        borderBottomWidth: 0
     },
     sectionHeader: {
         paddingTop: 2,
@@ -72,5 +102,7 @@ const styles = StyleSheet.create({
         padding: 30,
         fontSize: 18,
         height: 44,
+        backgroundColor: 'rgba(247,247,247,1.0)',
     },
+
 })
