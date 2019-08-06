@@ -1,18 +1,26 @@
 import React from 'react';
 
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, Image, StyleSheet, Modal, TouchableHighlight } from 'react-native';
 
 export default class EventListItem extends React.Component {
     constructor(props){
         super(props);
+
     }
 
     render(){
         return (
-          <View>
-              <Text style={styles.eventTitle}>{this.props.title}bar</Text>
-              <Button style={styles.buyButton} onPress title="Event Kaufen"/>
-              <Text style={styles.eventDescription}>{this.props.description}</Text>
+          <View style={styles.container}>
+              <View style={styles.innerContainer}>
+                  <Text style={styles.title}>{this.props.title}bar</Text>
+                  <Text style={styles.description}>{this.props.description}</Text>
+              </View>
+              <TouchableHighlight onPress={() => this.props.onCart(this.props)}>
+                                      <Image
+                  source={require('../images/Shopping-Basket.png')}
+                  style={styles.imageButton}
+                  title="buy"
+                                      /></TouchableHighlight>
           </View>
 
         );
@@ -21,13 +29,25 @@ export default class EventListItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    eventTitle : {
+    container: {
+        padding: 10,
+        flex: 1,
+        flexDirection: 'row'
+    },
+    innerContainer :{
+        flex: 1,
+    },
+    imageButton : {
+      width: 50,
+      height: 50,
+    },
+    title : {
         fontSize : 22,
     },
-    eventDescription : {
-        fontSize : 10,
+    description : {
+        fontSize : 15,
     },
-    eventButton : {
+    buyButton : {
         color: '#008000',
         backgroundColor:  '#212f3d',
 }
