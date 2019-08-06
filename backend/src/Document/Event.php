@@ -1,53 +1,52 @@
 <?php
 
-namespace App\Entity;
+namespace App\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @MongoDB\Document
  */
 class Event
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @MongoDB\Id(strategy="AUTO", type="int)
+     *
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @MongoDB\Field(type="datetime")
      */
     private $startDate;
 
     /**
-     * @ORM\Column(type="text")
+     * @MongoDB\Field(type="text")
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $ethContractId;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @MongoDB\Field(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @MongoDB\Field(type="datetime")
      */
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @MongoDB\Field(type="integer")
      */
     private $category;
 
