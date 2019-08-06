@@ -3,6 +3,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *
@@ -19,18 +20,21 @@ class Event
 
     /**
      * @var string $name event name
+     * @Assert\NotBlank
      * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * @var date $startDate start date and time of the event
+     * @Assert\NotNull
      * @MongoDB\Field(type="date")
      */
     private $startDate;
 
     /**
      * @var date $endDate end date and time of the event
+     * @Assert\NotNull
      * @MongoDB\Field(type="date")
      */
     private $endDate;
@@ -43,6 +47,7 @@ class Event
 
     /**
      * @var string $url event URL
+     * @Assert\Url
      * @MongoDB\Field(type="string")
      */
     private $url;
@@ -93,7 +98,7 @@ class Event
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -105,7 +110,7 @@ class Event
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

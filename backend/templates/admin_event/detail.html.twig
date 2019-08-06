@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminEventController!{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>{{ event.name }}</h1>
+
+
+    <ul id="event-details">
+
+        <li>{{ event.startDate|date('d.m.Y') }}</li>
+        <li>{{ event.endDate|date('d.m.Y') }}</li>
+        <li>{{ event.ethContractId }}</li>
+        <li><a href="{{ event.url }}" >{{ event.url }}</a></li>
+        <li>{{ event.description }}</li>
+
+
+    </ul>
+    <div><a href="{{ path('admin_events') }}">Back to list</a> </div>
+</div>
+{% endblock %}
