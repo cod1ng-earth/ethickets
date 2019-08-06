@@ -26,10 +26,6 @@ class AdminEventController extends AbstractController
  */
     public function createAction(DocumentManager  $dm)
     {
-        $events =
-
-
-
         $event = new Event();
         $event->setName('Breakout 2019');
         $event->setStartDate(new \DateTime());
@@ -37,13 +33,7 @@ class AdminEventController extends AbstractController
         $dm->persist($event);
         $dm->flush();
 
-        /* return $this->render('event/index.html.twig', [
-             'controller_name' => 'EventController',
-         ]);
-        */
-        /*$a = ['name' => 'Stefan'];
 
-        return new JsonResponse($a);
         */
         return new Response('Created event id '.$event->getId());
     }
@@ -59,34 +49,34 @@ class AdminEventController extends AbstractController
               'name' => 'Breakout 2019',
               'startDate' => new \DateTime(),
               'endDate' => new \DateTime(),
-              'url' => 'http://www.breakout.com',
+              'url' => 'http://www.breakout2019.com',
           ],
             [
                 'name' => 'Breakout 2020',
                 'startDate' => new \DateTime(),
                 'endDate' => new \DateTime(),
-                'url' => 'http://www.breakout.com',
+                'url' => 'http://www.breakou2ß2ßt.com',
 
             ],
             [
                 'name' => 'Breakout 2021',
                 'startDate' => new \DateTime(),
                 'endDate' => new \DateTime(),
-                'url' => 'http://www.breakout.com',
+                'url' => 'http://www.breakout21.com',
 
             ],
             [
                 'name' => 'Breakout 2022',
                 'startDate' => new \DateTime(),
                 'endDate' => new \DateTime(),
-                'url' => 'http://www.breakout.com',
+                'url' => 'http://www.breakout22.com',
 
             ],
             [
                 'name' => 'Breakout 2023',
                 'startDate' => new \DateTime(),
                 'endDate' => new \DateTime(),
-                'url' => 'http://www.breakout.com',
+                'url' => 'http://www.breakout23.com',
 
             ]
 
@@ -105,14 +95,6 @@ class AdminEventController extends AbstractController
 
         $dm->flush();
 
-        /* return $this->render('event/index.html.twig', [
-             'controller_name' => 'EventController',
-         ]);
-        */
-        /*$a = ['name' => 'Stefan'];
-
-        return new JsonResponse($a);
-        */
         return new Response('Created event id '.$event->getId());
     }
 }

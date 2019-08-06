@@ -138,7 +138,7 @@ class Event
 
     public function getUrl(): ?string
     {
-        return $this->$url;
+        return $this->url;
     }
 
     public function setUrl(string $url): self
