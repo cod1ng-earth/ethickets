@@ -21,6 +21,7 @@ class EventMapper
             'name' => $event->getName(),
             'description' => $event->getDescription(),
             'ethContractId' => $event->getEthContractId(),
+            'ticketPrice' => $event->getTicketPrice(),
             'url' => $event->getUrl(),
             'startDate' => $event->getStartDate(),
             'endDate' => $event->getEndDate()
