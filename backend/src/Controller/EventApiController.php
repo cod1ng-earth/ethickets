@@ -11,8 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventApiController extends AbstractController
 {
+
+
+
+
+
+
     /**
-     * @Route("/v1/events/", name="api_events", methods={"GET", "HEAD"})
+     * @Route("/v1/events", name="api_events", methods={"GET", "HEAD"})
      */
     public function index(DocumentManager $dm)
     {
@@ -43,8 +49,9 @@ class EventApiController extends AbstractController
 
     }
 
+
     /**
-     * @Route("/v1/events/{id}", name="api_events", methods={"GET", "HEAD"})
+     * @Route("/v1/events/{id}", name="api_events_detail", methods={"GET", "HEAD"})
      */
     public function detail(DocumentManager $dm, $id  = null)
     {
@@ -71,8 +78,6 @@ class EventApiController extends AbstractController
         return new JsonResponse($data);
 
     }
-
-
 
 
 

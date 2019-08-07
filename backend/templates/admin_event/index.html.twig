@@ -20,6 +20,7 @@
         <tr>
             <th scope="col">Event name</th>
             <th scope="col">Start date</th>
+            <th scope="col">Amount tickets</th>
             <th scope="col">Ticket price</th>
             <th scope="col" style="width:8%"></th>
             <th scope="col" style="width:8%"></th>
@@ -30,7 +31,8 @@
         <tr>
             <td><a href="{{ path('admin_events_details', {'id': item.id } ) }}" >{{ item.name }}</a></td>
             <td>{{ item.startDate|date('d.m.Y') }}</td>
-            <td>{{ item.ticketPrice }}</td>
+            <td>{{ item.ticketAmountOriginal }}</td>
+            <td>{{ item.ticketPrice|number_format(2, ',', '.') }}</td>
             <td><a href="{{ path('admin_events_edit', {'id': item.id}) }}">edit</a></td>
             <td><a href="{{ path('admin_events_delete', {'id': item.id}) }}">delete</a></td>
         </tr>
