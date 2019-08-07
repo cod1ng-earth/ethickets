@@ -47,6 +47,9 @@ class AdminEventController extends AbstractController
             $event = $form->getData();
             $this->dm->persist($event);
             $this->dm->flush();
+
+            $this->addFlash('success', 'Event had been created.');
+            return $this->redirectToRoute('admin_events');
         }
 
 

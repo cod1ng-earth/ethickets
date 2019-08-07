@@ -59,6 +59,30 @@ class Event
     private $ethContractId;
 
     /**
+     * @var float $ticketPrice event ticket price
+     * @Assert\NotBlank
+     * @MongoDB\Field(type="float")
+     */
+    private $ticketPrice;
+
+    /**
+     * @var int $ticketAmountOriginal original amount of event tickets
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *          type="integer",
+     *          message="The value {{ value }} is not a valid {{ type }}"
+     *     )
+     * @MongoDB\Field(type="int")
+     */
+    private $ticketAmountOriginal;
+
+    /**
+     * @var int $ticketAmountCurrent current amount of available event tickets
+     * @MongoDB\Field(type="int")
+     */
+    private $ticketAmountCurrent;
+
+    /**
      * @var date $createdAt timestamp event creation
      * @MongoDB\Field(type="date")
      */
@@ -91,6 +115,50 @@ class Event
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getTicketPrice(): ?float
+    {
+        return $this->ticketPrice;
+    }
+
+    public function setTicketPrice(float $ticketPrice): self
+    {
+        $this->ticketPrice = $ticketPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTicketAmountOriginal(): ?int
+    {
+        return $this->ticketAmountOriginal;
+    }
+
+    /**
+     * @param int $ticketAmountOriginal
+     */
+    public function setTicketAmountOriginal(int $ticketAmountOriginal): void
+    {
+        $this->ticketAmountOriginal = $ticketAmountOriginal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTicketAmountCurrent(): ?int
+    {
+        return $this->ticketAmountCurrent;
+    }
+
+    /**
+     * @param int $ticketAmountCurrent
+     */
+    public function setTicketAmountCurrent(int $ticketAmountCurrent): void
+    {
+        $this->ticketAmountCurrent = $ticketAmountCurrent;
     }
 
     public function getStartDate(): ?\DateTimeInterface

@@ -7,6 +7,12 @@
 <div class="container">
     <h1>All events</h1>
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
 <div><a href="{{ path('admin_events_form') }}">Add new event</a> </div>
 
     <ul id="events">

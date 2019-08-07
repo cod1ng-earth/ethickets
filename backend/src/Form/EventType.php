@@ -14,6 +14,8 @@ class EventType  extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('ticketAmountOriginal')
+            ->add('ticketPrice')
             ->add('startDate', null, ['widget' => 'single_text'])
             ->add('endDate', null, ['widget' => 'single_text'])
             ->add('url', null, [
