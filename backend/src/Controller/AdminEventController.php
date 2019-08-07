@@ -57,7 +57,36 @@ class AdminEventController extends AbstractController
         ] );
     }
 
+    /**
+     * @Route("/admin/events/edit/{id}", name="admin_events_edit", methods={"GET", "POST"})
+     */
+    public function edit($id)
+    {
+        $event = $this->dm->getRepository(Event::class)->findOneBy(['id' => $id]);
 
+        if (!$event) {
+            throw $this->createNotFoundException('No event found with ID '.$id);
+        }
+        return $this->render('admin_event/edit.html.twig', ['event' => $event]);
+    }
+
+    /**
+     * @Route("/admin/events/delete/{id}", name="admin_events_delete", methods={"GET", "POST"})
+     */
+    public function delete($id)
+    {
+        $event = $this->dm->getRepository(Event::class)->findOneBy(['id' => $id]);
+
+        if (!$event) {
+            throw $this->createNotFoundException('No event found with ID '.$id);
+        }
+
+        $this->dm->remove($event);
+        $this->dm->flush();
+        $this->addFlash('success', 'Event has been deleted.');
+
+        return $this->redirectToRoute('admin_events');
+    }
 
     /**
      * @Route("/admin/events/{id}", name="admin_events_details", methods={"GET", "HEAD"})

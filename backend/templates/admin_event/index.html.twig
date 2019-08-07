@@ -15,11 +15,24 @@
 
 <div><a href="{{ path('admin_events_form') }}">Add new event</a> </div>
 
-    <ul id="events">
+    <table class="table table-striped" id="events" style="width: 80%">
+        <thead>
+        <tr>
+            <th scope="col">Event name</th>
+            <th scope="col" style="width:8%"></th>
+            <th scope="col" style="width:8%"></th>
+        </tr>
+        </thead>
+        <tbody>
         {% for item in events %}
-        <li><a href="{{ path('admin_events_details', {'id': item.id } ) }}" >{{ item.name }}</a></li>
+        <tr>
+            <td><a href="{{ path('admin_events_details', {'id': item.id } ) }}" >{{ item.name }}</a></td>
+            <td><a href="{{ path('admin_events_edit', {'id': item.id}) }}">edit</a></td>
+            <td><a href="{{ path('admin_events_delete', {'id': item.id}) }}">delete</a></td>
+        </tr>
 
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 </div>
 {% endblock %}
