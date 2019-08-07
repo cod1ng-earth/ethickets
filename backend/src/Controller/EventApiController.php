@@ -11,12 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventApiController extends AbstractController
 {
-
-
-
-
-
-
     /**
      * @Route("/v1/events", name="api_events", methods={"GET", "HEAD"})
      */
@@ -49,7 +43,6 @@ class EventApiController extends AbstractController
 
     }
 
-
     /**
      * @Route("/v1/events/{id}", name="api_events_detail", methods={"GET", "HEAD"})
      */
@@ -78,6 +71,8 @@ class EventApiController extends AbstractController
         return new JsonResponse($data);
 
     }
+
+
 
 
 

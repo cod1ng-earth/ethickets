@@ -59,6 +59,20 @@ class Event
     private $ethContractId;
 
     /**
+     * @var string $ethOrganizerId Ethereum contract ID of organizer
+     * @Assert\NotBlank
+     * @MongoDB\Field(type="string")
+     */
+    private $ethOrganizerId;
+
+    /**
+     * @var string $organizerName name of organizer
+     * @Assert\NotBlank
+     * @MongoDB\Field(type="string")
+     */
+    private $organizerName;
+
+    /**
      * @var float $ticketPrice event ticket price
      * @Assert\NotBlank
      * @MongoDB\Field(type="float")
@@ -99,6 +113,40 @@ class Event
      * @MongoDB\Field(type="integer")
      */
     private $category;
+
+    /**
+     * @return string
+     */
+    public function getEthOrganizerId(): ?string
+    {
+        return $this->ethOrganizerId;
+    }
+
+    /**
+     * @param string $ethOrganizerId
+     */
+    public function setEthOrganizerId(string $ethOrganizerId): void
+    {
+        $this->ethOrganizerId = $ethOrganizerId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrganizerName(): ?string
+    {
+        return $this->organizerName;
+    }
+
+    /**
+     * @param string $organizerName
+     */
+    public function setOrganizerName(string $organizerName): void
+    {
+        $this->organizerName = $organizerName;
+    }
+
+
 
     public function getId()
     {
