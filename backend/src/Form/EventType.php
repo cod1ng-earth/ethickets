@@ -13,9 +13,20 @@ class EventType  extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('organizerName')
+            ->add('ethOrganizerId', null,  [
+                'label' => 'Ethereum organizer address'
+            ])
             ->add('name')
-            ->add('ticketAmountOriginal')
-            ->add('ticketPrice')
+            ->add('ethContractId', null, [
+                'label' => 'Etherum contract address'
+            ])
+            ->add('ticketAmountOriginal', null, [
+                'label' => 'Amount of available tickets'
+            ])
+            ->add('ticketPrice', null, [
+                'label' => 'Ticket price in Euro'
+            ])
             ->add('startDate', null, ['widget' => 'single_text'])
             ->add('endDate', null, ['widget' => 'single_text'])
             ->add('url', null, [
