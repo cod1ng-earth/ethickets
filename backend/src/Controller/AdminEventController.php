@@ -27,7 +27,7 @@ class AdminEventController extends AbstractController
      */
     public function index()
     {
-        $events = $this->dm->getRepository(Event::class)->findAll();
+        $events = $this->dm->getRepository(Event::class)->findBy([], ['startDate' => 'ASC']);
 
         return $this->render('admin_event/index.html.twig', ['events' => $events]);
 
@@ -48,7 +48,7 @@ class AdminEventController extends AbstractController
             $this->dm->persist($event);
             $this->dm->flush();
 
-            $this->addFlash('success', 'Event had been created.');
+            $this->addFlash('success', 'Event has been created.');
             return $this->redirectToRoute('admin_events');
         }
       
@@ -60,14 +60,29 @@ class AdminEventController extends AbstractController
     /**
      * @Route("/admin/events/edit/{id}", name="admin_events_edit", methods={"GET", "POST"})
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $event = $this->dm->getRepository(Event::class)->findOneBy(['id' => $id]);
 
         if (!$event) {
             throw $this->createNotFoundException('No event found with ID '.$id);
         }
-        return $this->render('admin_event/edit.html.twig', ['event' => $event]);
+
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $event = $form->getData();
+            $this->dm->persist($event);
+            $this->dm->flush();
+
+            $this->addFlash('success', 'Event has been updated.');
+            return $this->redirectToRoute('admin_events');
+        }
+
+        return $this->render('admin_event/edit.html.twig', [
+            'form' => $form->createView()
+        ] );
     }
 
     /**
