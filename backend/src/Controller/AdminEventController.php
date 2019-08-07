@@ -51,8 +51,7 @@ class AdminEventController extends AbstractController
             $this->addFlash('success', 'Event had been created.');
             return $this->redirectToRoute('admin_events');
         }
-
-
+      
         return $this->render('admin_event/edit.html.twig', [
             'form' => $form->createView()
         ] );
