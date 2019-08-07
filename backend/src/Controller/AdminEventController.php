@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AdminEventController extends AbstractController
 {
@@ -16,9 +17,16 @@ class AdminEventController extends AbstractController
     /** @var DocumentManager  */
     private $dm;
 
-    public function __construct(DocumentManager $dm)
+    /**
+     * @var HttpClientInterface
+     */
+    private $httpClient;
+
+    public function __construct(DocumentManager $dm, HttpClientInterface $httpClient)
     {
         $this->dm = $dm;
+
+        $this->httpClient = $httpClient;
     }
 
 
@@ -108,6 +116,10 @@ class AdminEventController extends AbstractController
      */
     public function detail($id  = null)
     {
+
+        $response = $this->httpClient->request('POST', 'moritz.elixir.api/buy');
+
+
         $event = $this->dm->getRepository(Event::class)->findOneBy(['id' => $id]);
 
         if (!$event) {
