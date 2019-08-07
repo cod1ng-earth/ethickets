@@ -14,7 +14,9 @@ services:
     - ./backend:/var/www/app:rw,cached
     ports:
     - "8087:8000"
-  
+    environment:
+      MONGODB_URL: mongodb://root:example@mongo
+      MONGODB_DB: ethickets
   mongo:
     image: mongo
     restart: always
