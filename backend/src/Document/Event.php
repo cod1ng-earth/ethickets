@@ -3,6 +3,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *
@@ -19,18 +20,21 @@ class Event
 
     /**
      * @var string $name event name
+     * @Assert\NotBlank
      * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * @var date $startDate start date and time of the event
+     * @Assert\NotNull
      * @MongoDB\Field(type="date")
      */
     private $startDate;
 
     /**
      * @var date $endDate end date and time of the event
+     * @Assert\NotNull
      * @MongoDB\Field(type="date")
      */
     private $endDate;
@@ -43,6 +47,7 @@ class Event
 
     /**
      * @var string $url event URL
+     * @Assert\Url
      * @MongoDB\Field(type="string")
      */
     private $url;
@@ -52,6 +57,30 @@ class Event
      * @MongoDB\Field(type="string")
      */
     private $ethContractId;
+
+    /**
+     * @var float $ticketPrice event ticket price
+     * @Assert\NotBlank
+     * @MongoDB\Field(type="float")
+     */
+    private $ticketPrice;
+
+    /**
+     * @var int $ticketAmountOriginal original amount of event tickets
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *          type="integer",
+     *          message="The value {{ value }} is not a valid {{ type }}"
+     *     )
+     * @MongoDB\Field(type="int")
+     */
+    private $ticketAmountOriginal;
+
+    /**
+     * @var int $ticketAmountCurrent current amount of available event tickets
+     * @MongoDB\Field(type="int")
+     */
+    private $ticketAmountCurrent;
 
     /**
      * @var date $createdAt timestamp event creation
@@ -88,12 +117,56 @@ class Event
         return $this;
     }
 
+    public function getTicketPrice(): ?float
+    {
+        return $this->ticketPrice;
+    }
+
+    public function setTicketPrice(float $ticketPrice): self
+    {
+        $this->ticketPrice = $ticketPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTicketAmountOriginal(): ?int
+    {
+        return $this->ticketAmountOriginal;
+    }
+
+    /**
+     * @param int $ticketAmountOriginal
+     */
+    public function setTicketAmountOriginal(int $ticketAmountOriginal): void
+    {
+        $this->ticketAmountOriginal = $ticketAmountOriginal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTicketAmountCurrent(): ?int
+    {
+        return $this->ticketAmountCurrent;
+    }
+
+    /**
+     * @param int $ticketAmountCurrent
+     */
+    public function setTicketAmountCurrent(int $ticketAmountCurrent): void
+    {
+        $this->ticketAmountCurrent = $ticketAmountCurrent;
+    }
+
     public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -105,7 +178,7 @@ class Event
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 

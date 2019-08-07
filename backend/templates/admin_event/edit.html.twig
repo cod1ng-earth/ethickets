@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminEventController!{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Add new event</h1>
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+
+
+
+    {{ form_end(form) }}
+
+
+
+    <div><a href="{{ path('admin_events') }}">Cancel</a> </div>
+</div>
+{% endblock %}
