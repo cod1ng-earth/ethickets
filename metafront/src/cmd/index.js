@@ -75,7 +75,7 @@ async function attend(account, contractAddress) {
         
     const account = awaitaddAccountToWallet(attendeePrivateKey);
     //console.log(account)
-    
+
     //const tx = await attend(account, contractAddress);
     //console.log(tx) //tx.transactionHash
 
@@ -84,6 +84,3 @@ async function attend(account, contractAddress) {
 
     return true;
 })()
-
-  //https://ropsten.infura.io/v3/f29d0befbacb497f9cb9d18e23212d4e
-  //ropsten.infura.io/v3/f29d0befbacb497f9cb9d18e23212d4e
