@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import moment from "moment";
+import moment from 'moment';
 
 export default class DateList extends React.Component {
   constructor(props) {

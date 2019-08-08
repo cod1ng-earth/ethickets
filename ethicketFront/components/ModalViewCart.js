@@ -17,7 +17,7 @@ export default class ModalViewCart extends React.Component {
     this.state = { walletId: '' };
   }
 
-  render()
+  render(){
     return (
       <View style={styles.modalViewCart}>
         <TouchableHighlight onPress={() => this.props.hideModal()}>
