@@ -23,19 +23,24 @@ export default class EventView extends React.Component {
   }
 
   static navigationOptions = {
-    headerTitle: <Header title={'Event'} />,
+    headerTitle: <Header title={''} />,
   };
 
   render() {
     const chosenEvent = this.props.navigation.getParam('chosenEvent');
     return (
       <View style={styles.modalViewCart}>
-        <TouchableHighlight onPress={() => this.props.hideModal()}>
-          <Text>Back</Text>
-        </TouchableHighlight>
-        <Text>{chosenEvent.title}</Text>
-        <DateList date={chosenEvent.startDate} />
-        <Text>{chosenEvent.description}</Text>
+          <View style={styles.container}>
+              <View>
+                  <DateList date={chosenEvent.startDate.date} />
+              </View>
+              <View style={styles.innerContainer}>
+                  <Text style={styles.title}>{chosenEvent.title}</Text>
+                  <Text style={styles.description}>
+                      {chosenEvent.description}
+                  </Text>
+              </View>
+          </View>
 
         <Text style={styles.title}>{chosenEvent.contractId}</Text>
         <Button
@@ -50,7 +55,14 @@ export default class EventView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  modalViewCart: {
-    marginTop: 80,
-  },
+    modalViewCart:{
+      padding:10,
+    },
+    title: {
+        fontSize: 22
+    },
+    description: {
+        fontSize: 15,
+        marginTop: 10,
+    },
 });

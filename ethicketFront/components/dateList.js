@@ -23,6 +23,7 @@ export default class DateList extends React.Component {
 
 const styles = StyleSheet.create({
   datecontainer: {
-    flex: 1
+    flex: 1,
+    padding: 10,
   }
 });

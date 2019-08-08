@@ -78,8 +78,8 @@ export default class EventsScreen extends React.Component {
             keyExtractor={item => item.id}
           />
           <Button
-              title="Go to Details"
-              onPress={() => this.props.navigation.navigate('Details')}
+              title="Settings"
+              onPress={() => this.props.navigation.navigate('Settings')}
           />
         </View>
 

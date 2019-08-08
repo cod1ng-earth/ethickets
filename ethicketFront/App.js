@@ -45,6 +45,7 @@ const RootStack = createStackNavigator(
   {
     Home: EventsScreen,
     EventView: EventView,
+    Settings: SettingsScreen,
     Details: DetailsScreen
   },
   {

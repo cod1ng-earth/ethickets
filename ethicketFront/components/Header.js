@@ -9,11 +9,26 @@ export default class Header extends React.Component {
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
+        <Text
+          style={{
+            width: 120,
+            height: 30,
+            flex: 3,
+            marginLeft: 10,
+            marginTop: 2,
+            fontSize: 20,
+          }}
+        >
+          {this.props.title}
+        </Text>
         <Image
           source={require('../images/ethicket_logo_name.png')}
-          style={{ width: 120, height: 30, }}
+          style={{
+              width: 120,
+              height: 30,
+              alignSelf: 'flex-end',
+          }}
         />
-        <Text style={{ width: 120, height: 30, flex: 3, marginLeft:10, marginTop:2,  fontSize:20 }}>{this.props.title}</Text>
       </View>
     );
   }
