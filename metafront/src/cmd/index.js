@@ -2,28 +2,29 @@ require('dotenv').config()
 const Web3 = require('web3')
 const contractAbi = require('../abi')
 
-const account = '0xE231B4e55fE1D0Afb3e746e64E78eEffB5b599d1';
-/*
-    //0xd582c3bc0e2c8040a0490d7d318995a1f5609bc1
-    // '0x4F614f3eD604eBfDaa0766e50d351cDf89E37956';
-    */
-const contractAddress = '0x575a50b88c368a78ec5ab775c05f6aa87b15bae6'; 
+const gethNode = process.env.GETH_NODE
+const hostAddress = process.env.HOST_ADDRESS;
+const contractAddress = process.env.CONTRACT_ADDRESS;
+const attendeePrivateKey = process.env.ATTENDEE_PRIVATEKEY;
 
-async function start(web3) {
-    //const accounts = web3.eth.accounts
-    //const account = accounts[0]
+const web3 = new Web3(gethNode);
 
-    //debugger
-    
+async function addAccountToWallet(privateKey) {
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    return await web3.eth.accounts.wallet.add(account)
+}
+
+async function getBalance(web3, account) {
+    const balance = await web3.eth.getBalance(account.address);
+    return balance
+
+}
+async function callSimpleMethods(web3, account) {
     const contractInstance = new web3.eth.Contract(contractAbi, contractAddress);
-    
-
-    //const contractInstance = contract.at(contractAddress);
-
     const gasPrice = web3.utils.toWei('100','gwei')
-    
+
     const txhash = await contractInstance.methods.getHosterAddress().call({
-        from: account,
+        from: hostAddress,
         gas: 30000,
         gasPrice: gasPrice,
         //value: ticketPrice
@@ -34,7 +35,7 @@ async function start(web3) {
 
     //just returns a number
     const txhash2 = await contractInstance.methods.getAUselessConstantValue().call({
-        from: account,
+        from: hostAddress,
         gas: 30000,
         gasPrice: gasPrice,
         //value: ticketPrice
@@ -42,13 +43,47 @@ async function start(web3) {
         console.log(err)
         console.log(result)
     })        
+}
+async function getTicketCount(attendeeAddress, contractAddress) {
+    
+    const contractInstance = new web3.eth.Contract(contractAbi, contractAddress);
+    const gasPrice = web3.utils.toWei('100','gwei')
 
+     const result = await contractInstance.methods.getMyTicketCount(attendeeAddress).call({
+        from: hostAddress,
+        gas: 30000,
+        gasPrice: gasPrice
+    });
+    return result;
 }
 
-const host = process.env.GETH_NODE
-const web3 = new Web3(host);
+async function attend(account, contractAddress) {
+    
+    const contractInstance = new web3.eth.Contract(contractAbi, contractAddress);
+    const gasPrice = web3.utils.toWei('100','gwei')
+    const ticketPrice = '10000000'; 
+    const txhash = await contractInstance.methods.requestTicket(account.address).send({
+        from: account.address,
+        gas: 300000,
+        gasPrice: gasPrice,
+        value: ticketPrice
+    });
+    return txhash;
+}
 
-start(web3)
+(async function() {
+        
+    const account = awaitaddAccountToWallet(attendeePrivateKey);
+    //console.log(account)
+    
+    //const tx = await attend(account, contractAddress);
+    //console.log(tx) //tx.transactionHash
+
+    const ticketCount = await getTicketCount(account.address, contractAddress)
+    //console.log(ticketCount);
+
+    return true;
+})()
 
   //https://ropsten.infura.io/v3/f29d0befbacb497f9cb9d18e23212d4e
   //ropsten.infura.io/v3/f29d0befbacb497f9cb9d18e23212d4e
