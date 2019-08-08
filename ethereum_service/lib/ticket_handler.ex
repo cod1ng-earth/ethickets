@@ -1,9 +1,9 @@
 defmodule TicketHandler do
     def init(request, state) do
-        :ok
+        {:cowboy_rest, request, state}
     end
 
-    def terminate(reason, request, state) do
+    def terminate(_reason, _request, _state) do
         :ok
     end
 end

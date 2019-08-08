@@ -1,5 +1,3 @@
-require IEx
-
 defmodule EventHandler do
     def init(request, state) do
         {:cowboy_rest, request, state}
@@ -43,7 +41,7 @@ defmodule EventHandler do
         {false, request, state}
     end
 
-    def terminate(reason, request, state) do
+    def terminate(_reason, _request, _state) do
         :ok
     end
 end
