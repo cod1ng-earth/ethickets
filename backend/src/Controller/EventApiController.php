@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
+/**
+ * @Route("/v1/events")
+ */
 class EventApiController extends AbstractController
 {
     /**
@@ -18,15 +21,13 @@ class EventApiController extends AbstractController
      */
     private $serializer;
 
-
     public function __construct(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
-
     }
 
     /**
-     * @Route("/v1/events", name="api_events", methods={"GET", "HEAD"})
+     * @Route("/", name="api_events", methods={"GET", "HEAD"})
      */
     public function index(DocumentManager $dm)
     {
@@ -40,20 +41,17 @@ class EventApiController extends AbstractController
             'groups' => ['api_default']
         ]);
 
-
        return new JsonResponse($serialized, Response::HTTP_OK, [], true);
 
     }
 
     /**
-     * @Route("/v1/events/{id}", name="api_events_detail", methods={"GET", "HEAD"})
+     * @Route("/{id}", name="api_events_detail", methods={"GET", "HEAD"})
      */
     public function detail(DocumentManager $dm, $id  = null)
     {
         $event = $dm->getRepository(Event::class)->findOneBy(['id' => $id]);
 
-        //var_dump($event);
-        //die();
         if (!$event) {
             throw $this->createNotFoundException('No event found with ID '.$id);
         }
@@ -64,9 +62,6 @@ class EventApiController extends AbstractController
 
 
         return new JsonResponse($serialized, Response::HTTP_OK, [], true);
-
-        return new JsonResponse($data);
-
     }
 
 

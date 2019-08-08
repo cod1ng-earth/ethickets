@@ -17,30 +17,14 @@ class EthereumService
     private $ethereumServiceUrl;
 
     /**
-     * @var string $method
-     */
-    private $method;
-
-    /**
-     * @var string $endpoint
-     */
-    private $endpoint = '';
-
-    /**
-     * @var array $payload body uploaded to API
-     */
-    private $payload = [];
-
-    /**
      * EthereumService constructor.
      * @param HttpClientInterface $httpClient
      * @param EthereumService $ethereumServiceUrl
      */
-    public function __construct(HttpClientInterface $httpClient, $ethereumServiceUrl )
+    public function __construct(HttpClientInterface $httpClient, $ethereumServiceUrl)
     {
         $this->httpClient = $httpClient;
         $this->ethereumServiceUrl = $ethereumServiceUrl;
-
     }
 
     public function getAvailableTickets(Event $event) {
@@ -48,55 +32,54 @@ class EthereumService
     }
 
     public function addEvent(Event $event) {
-        $this->endpoint = 'event';
-        $this->method = 'POST';
-
-        $this->payload = [
-            'json' =>   [
-                'address' => $event->getEthOrganizerId(),
-            ]
-        ];
+        
+        /*$this->api('POST', 'event', [
+            'address' => $event->getEthOrganizerId(),
+        ]);
+        */
 
         return json_encode([ 'address' => 'sakdfjlsadfkjf']);
-        //return $this->executeApiCall();
     }
 
-    public function getTest() {
-        $this->endpoint = 'posts';
-        $this->method = 'POST';
+    public function createSmartContract($ticketCount= 100, $organizerAddress="0x") {
 
-        $this->payload = [
-          'json' =>   [
-              'title' => 'Test',
-              'body' => 'Body Rock',
-              'userId' => 3
-          ]
-        ];
+        $response = $this->api('POST', 'posts', [
+            'ticketCount' => $ticketCount,
+            'address' => $organizerAddress
+        ]);
+        if (201 !== $response->getStatusCode()) {
+            throw new Exception("couldnt create smart contract for $organizerAddress");
+        }
 
+        $headers = $response->getHeaders();
 
-        return $this->executeApiCall();
+        if (isset($headers['location'][0])) {
+            return $headers['location'][0];
+        }
+        return null;
     }
 
     public function getContractInfo(string $location) {
         return $response = $this->httpClient->request('GET', $location);
     }
 
-    private function executeApiCall() {
+    private function api($method, $endpoint, $payload) {
 
         $serviceUrl = [
             $this->ethereumServiceUrl,
             $this->endpoint
         ];
+        
+        $url = "{$this->ethereumServiceUrl}/$endpoint"; 
 
-        $response = $this->httpClient->request($this->method, implode('/', $serviceUrl) , $this->payload);
+        $response = $this->httpClient->request($method, $endpoint, [
+            "json" => $payload
+        ]);
 
         if (200 !== $response->getStatusCode() ) {
             // TODO
         }
 
         return $response;
-
     }
-
-
 }
