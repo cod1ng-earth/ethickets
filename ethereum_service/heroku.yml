@@ -1,6 +1,6 @@
 setup:
   config:
-    GETH_NODE_URL: http://192.168.1.46
+    GETH_NODE_URL: http://192.168.1.46:8545
 build:
   docker:
     web: Dockerfile
