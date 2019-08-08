@@ -8,68 +8,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
+
+/**
+ * @Route("/v1/events")
+ */
 class EventApiController extends AbstractController
 {
     /**
-     * @Route("/v1/events", name="api_events", methods={"GET", "HEAD"})
+     * @var SerializerInterface
+     */
+    private $serializer;
+    
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @Route("/", name="api_events", methods={"GET", "HEAD"})
      */
     public function index(DocumentManager $dm)
     {
         $events = $dm->getRepository(Event::class)->findAll();
 
-        //var_dump($events);
-        //die();
         if (!$events) {
             throw $this->createNotFoundException('No events found.');
         }
 
-        $data = array();
-        /* @var Event $event */
-        foreach ($events as $event) {
-            $data[] = [
-                'id' => $event->getId(),
-                'name' => $event->getName(),
-                'description' => $event->getDescription(),
-                'ethContractId' => $event->getEthContractId(),
-                'url' => $event->getUrl(),
-                'startDate' => $event->getStartDate(),
-                'endDate' => $event->getEndDate()
-                ];
+        $serialized = $this->serializer->serialize($events, 'json', [
+            'groups' => ['api_default']
+        ]);
 
-        }
-
-       return new JsonResponse($data);
+       return new JsonResponse($serialized, Response::HTTP_OK, [], true);
 
     }
 
     /**
-     * @Route("/v1/events/{id}", name="api_events_detail", methods={"GET", "HEAD"})
+     * @Route("/{id}", name="api_events_detail", methods={"GET", "HEAD"})
      */
     public function detail(DocumentManager $dm, $id  = null)
     {
         $event = $dm->getRepository(Event::class)->findOneBy(['id' => $id]);
 
-        //var_dump($event);
-        //die();
         if (!$event) {
             throw $this->createNotFoundException('No event found with ID '.$id);
         }
 
-        $data = array();
-        $data[] = [
-            'id' => $event->getId(),
-            'name' => $event->getName(),
-            'description' => $event->getDescription(),
-            'ethContractId' => $event->getEthContractId(),
-            'url' => $event->getUrl(),
-            'startDate' => $event->getStartDate(),
-            'endDate' => $event->getEndDate()
-        ];
+        $serialized = $this->serializer->serialize($event, 'json', [
+            'groups' => ['api_default']
+        ]);
 
 
-        return new JsonResponse($data);
-
+        return new JsonResponse($serialized, Response::HTTP_OK, [], true);
     }
 
 

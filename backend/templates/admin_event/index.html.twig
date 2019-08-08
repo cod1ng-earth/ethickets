@@ -29,7 +29,7 @@
         <tbody>
         {% for item in events %}
         <tr>
-            <td><a href="{{ path('admin_events_edit', {'id': item.id } ) }}" >{{ item.name }}</a></td>
+            <td><a href="{{ path('admin_events_details', {'id': item.id } ) }}" >{{ item.name }}</a></td>
             <td>{{ item.startDate|date('d.m.Y') }}</td>
             <td>{{ item.ticketAmountOriginal }}</td>
             <td>
