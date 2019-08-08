@@ -1,54 +1,77 @@
-import React from 'react';
+import React from "react";
 
-import { Text, View, Image, StyleSheet, Modal, TouchableHighlight } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Modal,
+  TouchableHighlight,
+} from "react-native";
+import DateList from "./dateList";
 
 export default class EventListItem extends React.Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
+  }
 
-    }
-
-    render(){
-        return (
+  render() {
+    return (
+      <View>
+        <TouchableHighlight onPress={() => this.props.onCart(this.props)}>
           <View style={styles.container}>
-              <View style={styles.innerContainer}>
-                  <Text style={styles.title}>{this.props.title}bar</Text>
-                  <Text style={styles.description}>{this.props.description}</Text>
-              </View>
-              <TouchableHighlight onPress={() => this.props.onCart(this.props)}>
-                                      <Image
-                  source={require('../images/Shopping-Basket.png')}
-                  style={styles.imageButton}
-                  title="buy"
-                                      /></TouchableHighlight>
+            <View>
+              <DateList date={this.props.startDate.date} />
+            </View>
+            <View style={styles.innerContainer}>
+              <Text style={styles.title}>{this.props.title}</Text>
+              <Text style={styles.description}>
+                {this.props.description.toString().slice(0, 50)}
+              </Text>
+            </View>
+            <Image
+              source={require('../images/Shopping-Basket.png')}
+              style={styles.imageButton}
+              title="buy"
+            />
           </View>
-
-        );
-    }
-
+        </TouchableHighlight>
+        <View style={styles.separator} />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-        flex: 1,
-        flexDirection: 'row'
-    },
-    innerContainer :{
-        flex: 1,
-    },
-    imageButton : {
-      width: 50,
-      height: 50,
-    },
-    title : {
-        fontSize : 22,
-    },
-    description : {
-        fontSize : 15,
-    },
-    buyButton : {
-        color: '#008000',
-        backgroundColor:  '#212f3d',
-}
-})
+  container: {
+    padding: 10,
+    flexDirection: "row"
+  },
+  datecontainer: {
+    flex: 1
+  },
+  innerContainer: {
+    flex: 3,
+    padding: 2
+  },
+  imageButton: {
+    width: 50,
+    height: 50,
+    flex: 1
+  },
+  title: {
+    fontSize: 22
+  },
+  description: {
+    fontSize: 15
+  },
+  buyButton: {
+    color: "#008000",
+    backgroundColor: "#212f3d"
+  },
+  separator: {
+    height: 0.5,
+    width: "100%",
+    backgroundColor: "rgba(0,0,0,0.5)"
+  }
+});

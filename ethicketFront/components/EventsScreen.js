@@ -1,84 +1,90 @@
 import React from 'react';
 
-import { Text, FlatList, SectionList, View, StyleSheet, Modal, TouchableHighlight } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { FlatList,  View, StyleSheet, Modal,  ActivityIndicator } from 'react-native';
 import EventListItem from "./EventListItem";
+import ModalViewCart from "./ModalViewCart";
 
 export default class EventsScreen extends React.Component {
     constructor(props){
         super(props);
-        this.state = {fetchList : [
-            {id: 1 ,eventTitle: 'DevDay 2020', eventDescription: "Crazy Turbine Kreuzberg guys will be as famous as Berghain"},
-            {id: 2 ,eventTitle: 'KubeCon Clifornia 2020', eventDescription: "The K8S at it's best"},
-            {id: 3 ,eventTitle: 'Pearl Jam Berlin 2020', eventDescription: "Seattle guys are Back with all the hits"},
-            {id: 4 ,eventTitle: 'Tool 2019', eventDescription: "Industrial/Psychodelic Rock will see it's great come back"},
-        ]};
+        this.state = {fetchList : null};
         this.state.modalVisible = false;
         this.state.chosenEvent = null;
+        this.state.loading =  true;
         this.onCart = this.onCart.bind(this);
+        this.buyTicket = this.buyTicket.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
 
     async componentDidMount(){
-        return;
-        //const fetchList = await this.fetchListsFromServer();
-        if(fetchLists){
-            this.setState({fetchList});
-            alert('fetching lists');
-        }
+        fetch("https://ethickets.herokuapp.com/v1/events")
+            .then(response => response.json())
+            .then((responseJson)=> {
+                this.setState({
+                    loading: false,
+                    fetchList: responseJson
+                })
+            })
+
+            .catch(error=>console.log(error)) //to catch the errors if any
     }
 
-    async fetchListsFromServer() {
-        try {
-            const response = await fetch('https://url-of-your-server.com/example/json'); // 1
-            return await response.json(); // 2
-        } catch (error) {
-            // ... gracefully handle error
-        }
-    }
 
     onCart(chosenEvent){
         this.setState({modalVisible : true, chosenEvent })
     }
+    hideModal(){
+        this.setState({modalVisible : false})
+    }
+    buyTicket(){
+        //check wallet
+
+        //get ethereums
+
+        //call contract to add ticket
+    }
+
 
 
     render() {
-        return (
-            <View style={styles.container}>
+        if(this.state.loading){
+            return(
+                <View style={styles.loader}>
+                <ActivityIndicator style={styles.activityIndicator}/>
+            </View>)
+        } else {
+            return (
+                <View style={styles.container}>
                 <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                    }}>
-                    <View style={styles.modal}>
-                        <View>
-                            <Text>{this.state.chosenEvent ? this.state.chosenEvent.title : '' }</Text>
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+            }}>
+        <ModalViewCart hideModal={this.hideModal} buyTicket={this.buyTicket}
+            chosenEvent={this.state.chosenEvent}/>
+            </Modal>
 
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setState({modalVisible : !this.state.modalVisible});
-                                }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </Modal>
-
-                <FlatList
-                    data={this.state.fetchList}
-                    renderItem={({item}) => (
-                        <EventListItem
-                            title={item.eventTitle}
-                            description={item.eventDescription}
-                            onCart={this.onCart}
-                        />
-                        )}
-                    keyExtractor={item => item.id}
-                />
+            <FlatList
+            data={this.state.fetchList}
+            renderItem={({item}) => (
+            <EventListItem
+            id={item.id}
+            title={item.name}
+            description={item.description}
+            contractId={item.ethContractId}
+            startDate={item.startDate}
+            endDate={item.startDate}
+            onCart={this.onCart}
+            />
+        )}
+            keyExtractor={item => item.id}
+            />
 
             </View>
         );
+        }
     }
 }
 
@@ -104,5 +110,13 @@ const styles = StyleSheet.create({
         height: 44,
         backgroundColor: 'rgba(247,247,247,1.0)',
     },
-
+    activityIndicator:{
+    }
 })
+
+function getParsedDate(date){
+    date = String(date).split(' ');
+    var days = String(date[0]).split('-');
+    var hours = String(date[1]).split(':');
+    return [parseInt(days[0]), parseInt(days[1])-1, parseInt(days[2]), parseInt(hours[0]), parseInt(hours[1]), parseInt(hours[2])];
+}
