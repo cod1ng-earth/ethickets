@@ -1,0 +1,9 @@
+setup:
+  config:
+    GETH_NODE_URL: http://192.168.1.46
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: /usr/local/bin/mix run --no-halt
+  
