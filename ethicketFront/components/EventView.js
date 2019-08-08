@@ -1,5 +1,9 @@
 import React from "react";
-
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
 import {
   Text,
   View,
@@ -10,24 +14,30 @@ import {
   Button
 } from "react-native";
 import DateList from "./dateList";
+import Header from "./Header";
 
-export default class ModalViewCart extends React.Component {
+export default class EventView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { walletId: '' };
   }
 
-  render(){
+  static navigationOptions = {
+    headerTitle: <Header title={'Event'} />,
+  };
+
+  render() {
+    const chosenEvent = this.props.navigation.getParam('chosenEvent');
     return (
       <View style={styles.modalViewCart}>
         <TouchableHighlight onPress={() => this.props.hideModal()}>
           <Text>Back</Text>
         </TouchableHighlight>
-        <Text>{this.props.chosenEvent.title}</Text>
-        <DateList date={this.props.chosenEvent.startDate} />
-        <Text>{this.props.chosenEvent.description}</Text>
+        <Text>{chosenEvent.title}</Text>
+        <DateList date={chosenEvent.startDate} />
+        <Text>{chosenEvent.description}</Text>
 
-        <Text style={styles.title}>{this.props.chosenEvent.contractId}</Text>
+        <Text style={styles.title}>{chosenEvent.contractId}</Text>
         <Button
           onPress={() => this.props.buyTicket(this.state)}
           title="Buy Ticket"

@@ -5,10 +5,11 @@ import {
   View,
   StyleSheet,
   Modal,
-  ActivityIndicator,
+  ActivityIndicator, Button,
 } from 'react-native';
 import EventListItem from "./EventListItem";
-import ModalViewCart from "./ModalViewCart";
+import EventView from "./EventView";
+import Header from "./Header";
 
 export default class EventsScreen extends React.Component {
   constructor(props) {
@@ -21,6 +22,10 @@ export default class EventsScreen extends React.Component {
     this.buyTicket = this.buyTicket.bind(this);
     this.hideModal = this.hideModal.bind(this);
   }
+
+  static navigationOptions = {
+    headerTitle: <Header title={'Events'}/>,
+  };
 
   async componentDidMount() {
     fetch("https://ethickets.herokuapp.com/v1/events")
@@ -57,21 +62,6 @@ export default class EventsScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}
-          >
-            <ModalViewCart
-              hideModal={this.hideModal}
-              buyTicket={this.buyTicket}
-              chosenEvent={this.state.chosenEvent}
-            />
-          </Modal>
-
           <FlatList
             data={this.state.fetchList}
             renderItem={({ item }) => (
@@ -81,13 +71,18 @@ export default class EventsScreen extends React.Component {
                 description={item.description}
                 contractId={item.ethContractId}
                 startDate={item.startDate}
+                navigation={this.props.navigation}
                 endDate={item.startDate}
-                onCart={this.onCart}
               />
             )}
             keyExtractor={item => item.id}
           />
+          <Button
+              title="Go to Details"
+              onPress={() => this.props.navigation.navigate('Details')}
+          />
         </View>
+
       );
     }
   }
@@ -97,8 +92,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 22,
-    borderTopWidth: 80,
-    borderBottomWidth: 0
   },
   sectionHeader: {
     paddingTop: 2,

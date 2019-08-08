@@ -5,7 +5,6 @@ import {
   View,
   Image,
   StyleSheet,
-  Modal,
   TouchableHighlight,
 } from "react-native";
 import DateList from "./dateList";
@@ -18,7 +17,13 @@ export default class EventListItem extends React.Component {
   render() {
     return (
       <View>
-        <TouchableHighlight onPress={() => this.props.onCart(this.props)}>
+        <TouchableHighlight
+          onPress={() =>
+            this.props.navigation.navigate("EventView", {
+              chosenEvent: this.props
+            })
+          }
+        >
           <View style={styles.container}>
             <View>
               <DateList date={this.props.startDate.date} />
