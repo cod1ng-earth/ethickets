@@ -1,108 +1,126 @@
 import React from 'react';
 
-import { Text, FlatList, SectionList, View, StyleSheet, Modal, TouchableHighlight } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  Modal,
+  ActivityIndicator, Button,
+} from 'react-native';
 import EventListItem from "./EventListItem";
+import EventView from "./EventView";
+import Header from "./Header";
 
 export default class EventsScreen extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {fetchList : [
-            {id: 1 ,eventTitle: 'DevDay 2020', eventDescription: "Crazy Turbine Kreuzberg guys will be as famous as Berghain"},
-            {id: 2 ,eventTitle: 'KubeCon Clifornia 2020', eventDescription: "The K8S at it's best"},
-            {id: 3 ,eventTitle: 'Pearl Jam Berlin 2020', eventDescription: "Seattle guys are Back with all the hits"},
-            {id: 4 ,eventTitle: 'Tool 2019', eventDescription: "Industrial/Psychodelic Rock will see it's great come back"},
-        ]};
-        this.state.modalVisible = false;
-        this.state.chosenEvent = null;
-        this.onCart = this.onCart.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = { 
+        fetchList: null,
+        modalVisible: false,
+        chosenEvent: false,
+        loading: true
+    };
+    
+    this.onCart = this.onCart.bind(this);
+    this.buyTicket = this.buyTicket.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+  }
+
+  static navigationOptions = {
+    headerTitle: <Header title={'Events'}/>,
+  };
+
+  async componentDidMount() {
+    const response = await fetch("https://ethickets.herokuapp.com/v1/events")
+    const responseJson = await response.json()
+
+    this.setState({
+        loading: false,
+        fetchList: responseJson
+    });
+  }
+
+  onCart(chosenEvent) {
+    this.setState({ modalVisible: true, chosenEvent });
+  }
+  hideModal() {
+    this.setState({ modalVisible: false });
+  }
+  buyTicket() {
+    //check wallet
+    //get ethereums
+    //call contract to add ticket
+  }
+
+  render() {
+    if (this.state.loading) {
+      return (
+        <View style={styles.loader}>
+          <ActivityIndicator style={styles.activityIndicator} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <FlatList
+            data={this.state.fetchList}
+            renderItem={({ item }) => (
+              <EventListItem
+                id={item.id}
+                title={item.name}
+                description={item.description || ''}
+                contractAddress={item.ethContractAddress}
+                startDate={item.startDate}
+                navigation={this.props.navigation}
+                endDate={item.startDate}
+              />
+            )}
+            keyExtractor={item => item.id}
+          />
+          <Button
+              title="Settings"
+              onPress={() => this.props.navigation.navigate('Settings')}
+          />
+        </View>
+
+      );
     }
-
-    async componentDidMount(){
-        return;
-        //const fetchList = await this.fetchListsFromServer();
-        if(fetchLists){
-            this.setState({fetchList});
-            alert('fetching lists');
-        }
-    }
-
-    async fetchListsFromServer() {
-        try {
-            const response = await fetch('https://url-of-your-server.com/example/json'); // 1
-            return await response.json(); // 2
-        } catch (error) {
-            // ... gracefully handle error
-        }
-    }
-
-    onCart(chosenEvent){
-        this.setState({modalVisible : true, chosenEvent })
-    }
-
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                    }}>
-                    <View style={styles.modal}>
-                        <View>
-                            <Text>{this.state.chosenEvent ? this.state.chosenEvent.title : '' }</Text>
-
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setState({modalVisible : !this.state.modalVisible});
-                                }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </Modal>
-
-                <FlatList
-                    data={this.state.fetchList}
-                    renderItem={({item}) => (
-                        <EventListItem
-                            title={item.eventTitle}
-                            description={item.eventDescription}
-                            onCart={this.onCart}
-                        />
-                        )}
-                    keyExtractor={item => item.id}
-                />
-
-            </View>
-        );
-    }
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 22,
-        borderTopWidth: 80,
-        borderBottomWidth: 0
-    },
-    sectionHeader: {
-        paddingTop: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 2,
-        fontSize: 14,
-        fontWeight: 'bold',
-        backgroundColor: 'rgba(247,247,247,1.0)',
-    },
-    item: {
-        padding: 30,
-        fontSize: 18,
-        height: 44,
-        backgroundColor: 'rgba(247,247,247,1.0)',
-    },
+  container: {
+    flex: 1,
+    paddingTop: 22,
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(247,247,247,1.0)'
+  },
+  item: {
+    padding: 30,
+    fontSize: 18,
+    height: 44,
+    backgroundColor: 'rgba(247,247,247,1.0)'
+  },
+  activityIndicator: {}
+});
 
-})
+function getParsedDate(date) {
+  const d = String(date).split(' ');
+  const days = String(d[0]).split('-');
+  const hours = String(d[1]).split(':');
+  return [
+    parseInt(days[0]),
+    parseInt(days[1]) - 1,
+    parseInt(days[2]),
+    parseInt(hours[0]),
+    parseInt(hours[1]),
+    parseInt(hours[2]),
+  ];
+}
