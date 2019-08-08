@@ -14,10 +14,13 @@ import Header from "./Header";
 export default class EventsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { fetchList: null };
-    this.state.modalVisible = false;
-    this.state.chosenEvent = null;
-    this.state.loading = true;
+    this.state = { 
+        fetchList: null,
+        modalVisible: false,
+        chosenEvent: false,
+        loading: true
+    };
+    
     this.onCart = this.onCart.bind(this);
     this.buyTicket = this.buyTicket.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -28,16 +31,13 @@ export default class EventsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    fetch("https://ethickets.herokuapp.com/v1/events")
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          loading: false,
-          fetchList: responseJson
-        });
-      })
+    const response = await fetch("https://ethickets.herokuapp.com/v1/events")
+    const responseJson = await response.json()
 
-      .catch(error => console.log(error)); //to catch the errors if any
+    this.setState({
+        loading: false,
+        fetchList: responseJson
+    });
   }
 
   onCart(chosenEvent) {
@@ -68,8 +68,8 @@ export default class EventsScreen extends React.Component {
               <EventListItem
                 id={item.id}
                 title={item.name}
-                description={item.description}
-                contractId={item.ethContractId}
+                description={item.description || ''}
+                contractAddress={item.ethContractAddress}
                 startDate={item.startDate}
                 navigation={this.props.navigation}
                 endDate={item.startDate}
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
 });
 
 function getParsedDate(date) {
-  date = String(date).split(' ');
-  var days = String(date[0]).split('-');
-  var hours = String(date[1]).split(':');
+  const d = String(date).split(' ');
+  const days = String(d[0]).split('-');
+  const hours = String(d[1]).split(':');
   return [
     parseInt(days[0]),
     parseInt(days[1]) - 1,

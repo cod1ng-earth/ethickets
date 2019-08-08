@@ -7,12 +7,9 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from "react-native";
-import DateList from "./dateList";
+import DateList from "./DateList";
 
 export default class EventListItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
@@ -26,7 +23,7 @@ export default class EventListItem extends React.Component {
         >
           <View style={styles.container}>
             <View>
-              <DateList date={this.props.startDate.date} />
+              <DateList date={this.props.startDate} />
             </View>
             <View style={styles.innerContainer}>
               <Text style={styles.title}>{this.props.title}</Text>

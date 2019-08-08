@@ -13,7 +13,7 @@ import {
   TextInput,
   Button
 } from "react-native";
-import DateList from "./dateList";
+import DateList from "./DateList";
 import Header from "./Header";
 
 export default class EventView extends React.Component {
@@ -32,7 +32,7 @@ export default class EventView extends React.Component {
       <View style={styles.modalViewCart}>
           <View style={styles.container}>
               <View>
-                  <DateList date={chosenEvent.startDate.date} />
+                  <DateList date={chosenEvent.startDate} />
               </View>
               <View style={styles.innerContainer}>
                   <Text style={styles.title}>{chosenEvent.title}</Text>
@@ -42,7 +42,7 @@ export default class EventView extends React.Component {
               </View>
           </View>
 
-        <Text style={styles.title}>{chosenEvent.contractId}</Text>
+        <Text style={styles.title}>{chosenEvent.contractAddress}</Text>
         <Button
           onPress={() => this.props.buyTicket(this.state)}
           title="Buy Ticket"
