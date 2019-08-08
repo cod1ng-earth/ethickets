@@ -1,6 +1,12 @@
 version: '3'
 services: 
   elixir:
-    image: elixir
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8080"
     volumes: 
       - .:/usr/source/myapp:delegated
+    working_dir: "/usr/source/myapp"      
+    #command: "iex -S mix"
