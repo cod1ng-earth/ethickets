@@ -70,6 +70,7 @@ class Event
      * @var string $ethOrganizerAddress Ethereum contract ID of organizer
      * @Assert\NotBlank
      * @MongoDB\Field(type="string")
+     * @Groups({"api_default"})
      */
     private $ethOrganizerAddress;
 

@@ -20,7 +20,7 @@ class EventApiController extends AbstractController
      * @var SerializerInterface
      */
     private $serializer;
-
+    
     public function __construct(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
