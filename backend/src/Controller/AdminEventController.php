@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Document\Event;
 use App\Form\EventType;
+use App\Service\EthereumService;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+//use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AdminEventController extends AbstractController
 {
@@ -17,16 +18,21 @@ class AdminEventController extends AbstractController
     /** @var DocumentManager  */
     private $dm;
 
-    /**
-     * @var HttpClientInterface
-     */
-    private $httpClient;
 
-    public function __construct(DocumentManager $dm, HttpClientInterface $httpClient)
+    /**
+     * @var EthereumService
+     */
+    private $es;
+
+    /**
+     * AdminEventController constructor.
+     * @param DocumentManager $dm
+     * @param EthereumService $
+     */
+    public function __construct(DocumentManager $dm, EthereumService $es)
     {
         $this->dm = $dm;
-
-        $this->httpClient = $httpClient;
+        $this->es = $es;
     }
 
 
@@ -52,11 +58,36 @@ class AdminEventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /* @var Event $event */
             $event = $form->getData();
             $this->dm->persist($event);
             $this->dm->flush();
 
-            $this->addFlash('success', 'Event has been created.');
+            $msg = '';
+
+            /* Create Ethereum contract location */
+            $response = $this->es->getTest();
+
+            if (201 !== $response->getStatusCode()) {
+                // TODO: Handle errors
+            }
+            else {
+                $headers = $response->getHeaders();
+
+                if (isset($headers['location'][0])) {
+                    $location = $headers['location'][0];
+
+                    /* Get Ethereum contract address */
+                    //$response = $this->es->getContractInfo($location);
+
+                    $event->setEthContractLocation($location);
+                    $this->dm->persist($event);
+                    $this->dm->flush();
+                    $msg .= 'Address '.$headers['location'][0].' added.';
+                }
+            }
+
+            $this->addFlash('success', 'Event has been created. '.$msg);
             return $this->redirectToRoute('admin_events');
         }
       
@@ -67,6 +98,9 @@ class AdminEventController extends AbstractController
 
     /**
      * @Route("/admin/events/edit/{id}", name="admin_events_edit", methods={"GET", "POST"})
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, $id)
     {
@@ -95,6 +129,8 @@ class AdminEventController extends AbstractController
 
     /**
      * @Route("/admin/events/delete/{id}", name="admin_events_delete", methods={"GET", "POST"})
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function delete($id)
     {
@@ -113,19 +149,20 @@ class AdminEventController extends AbstractController
 
     /**
      * @Route("/admin/events/{id}", name="admin_events_details", methods={"GET", "HEAD"})
+     * @param null $id
+     * @return Response
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function detail($id  = null)
+    public function detail($id = null)
     {
 
-        $response = $this->httpClient->request('POST', 'moritz.elixir.api/buy');
+        $response = $this->es->getTest();
 
 
-        $event = $this->dm->getRepository(Event::class)->findOneBy(['id' => $id]);
-
-        if (!$event) {
-            throw $this->createNotFoundException('No event found with ID '.$id);
-        }
-        return $this->render('admin_event/detail.html.twig', ['event' => $event]);
+        return new Response($response->getContent());
     }
 
 
