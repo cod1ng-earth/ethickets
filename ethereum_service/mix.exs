@@ -16,7 +16,10 @@ defmodule EthereumService.MixProject do
     [
       mod: {ApiServer, []},
       applications: [:cowboy, :ranch, :ethereumex],
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      env: [
+        listen_port: 8080
+      ]
     ]
   end
 
@@ -24,8 +27,9 @@ defmodule EthereumService.MixProject do
   defp deps do
     [
       {:cowboy, "~> 2.6.3"},
-      {:poison, "~> 3.1"},
-      {:ethereumex, "~> 0.5.4"}
+      {:poison, "~> 4.0.1"},
+      {:ethereumex, "~> 0.4.0"},
+      {:exw3, "~> 0.4.4"}
     ]
   end
 end
