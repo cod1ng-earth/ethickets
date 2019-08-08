@@ -19,11 +19,7 @@ defmodule EventHandler do
 
         address = jsonMap["address"]
         # Call gateway to Ethereum
-        case {code, version} = Ethereumex.HttpClient.web3_client_version() do
-            {:ok, _} -> :logger.debug(version)
-            {:error, _} -> :logger.debug(version)
-            {_, _} -> :logger.debug(code)
-        end
+        EthereumGateway.compileContract()
         # Receiver contract address
         contractAddress = DateTime.to_string(DateTime.utc_now())
 
