@@ -23,3 +23,14 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+
+  elixir:
+    build:
+      context: ethereum_service
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8080"
+    volumes: 
+      - ./ethereum_service:/usr/source/myapp:delegated
+    working_dir: "/usr/source/myapp"      
+    #command: "iex -S mix"
