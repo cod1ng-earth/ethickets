@@ -14,7 +14,8 @@ defmodule EthereumService.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      applications: [:ethereumex],
+      mod: {ApiServer, []},
+      applications: [:cowboy, :ranch, :ethereumex],
       extra_applications: [:logger]
     ]
   end
@@ -22,6 +23,8 @@ defmodule EthereumService.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:cowboy, "~> 2.6.3"},
+      {:poison, "~> 3.1"},
       {:ethereumex, "~> 0.5.4"}
     ]
   end
