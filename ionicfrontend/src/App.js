@@ -19,7 +19,7 @@ class App extends Component {
       return (
           <IonApp>
             <IonContent>
-                <Modal show={true} />
+                <Modal show={false} />
               <EventScreen />
               <IonCard>
                 <IonCardHeader>
