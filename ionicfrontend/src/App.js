@@ -1,4 +1,5 @@
 import React, { useState, Component } from 'react';
+
 import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import {
@@ -10,6 +11,7 @@ import {
   IonCardTitle,
   IonCardSubtitle
 } from '@ionic/react';
+import EventScreen from "./components/EventScreen";
 
 const Modal = () => {
   
@@ -25,19 +27,20 @@ const Modal = () => {
 
 class App extends Component {
   render() {
-    return (
-      <IonApp>
-        <IonContent>
-          <Modal />
-          <IonCard>
-            <IonCardHeader>
-              <IonCardSubtitle>Welcome to Ionic</IonCardSubtitle>
-              <IonCardTitle>Running on React</IonCardTitle>
-            </IonCardHeader>
-          </IonCard>
-        </IonContent>
-      </IonApp>
-    );
+      return (
+          <IonApp>
+            <IonContent>
+              <EventScreen />
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardSubtitle>Welcome to Ionic</IonCardSubtitle>
+                  <IonCardTitle>Running on React</IonCardTitle>
+                </IonCardHeader>
+              </IonCard>
+            </IonContent>
+          </IonApp>
+      );
+
   }
 }
 
