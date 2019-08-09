@@ -73,7 +73,7 @@ async function attend(account, contractAddress) {
 
 (async function() {
         
-    const account = awaitaddAccountToWallet(attendeePrivateKey);
+    const account = await addAccountToWallet(attendeePrivateKey);
     //console.log(account)
 
     //const tx = await attend(account, contractAddress);
