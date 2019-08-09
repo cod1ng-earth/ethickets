@@ -15,7 +15,7 @@ export default class EventListItem extends Component {
                 <IonLabel>
                     {this.props.description.toString().slice(0, 80)}
                 </IonLabel>
-                <IonButton>Buy</IonButton>
+                <IonButton onClick={() => this.props.onBuy()}>Buy</IonButton>
             </IonItem>
         );
     }

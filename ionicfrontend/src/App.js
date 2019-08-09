@@ -13,7 +13,7 @@ import {
 } from '@ionic/react';
 import EventScreen from "./components/EventScreen";
 
-import SettingsModal from './components/SettingsModal'
+
 
 class App extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class App extends Component {
             </IonFabButton>
           </IonFab>
 
-          <SettingsModal show={this.state.settingsModal} closed={this.toggleModal} />
+          
           <EventScreen />
           <IonCard>
             <IonCardHeader>
