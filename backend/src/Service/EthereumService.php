@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Document\Event;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class EthereumService
@@ -31,15 +32,6 @@ class EthereumService
 
     }
 
-    public function addEvent(Event $event) {
-        
-        /*$this->api('POST', 'event', [
-            'address' => $event->getEthOrganizerId(),
-        ]);
-        */
-
-        return json_encode([ 'address' => 'sakdfjlsadfkjf']);
-    }
 
     public function createSmartContract($ticketCount= 100, $organizerAddress="0x") {
 
@@ -47,8 +39,9 @@ class EthereumService
             'ticketCount' => $ticketCount,
             'address' => $organizerAddress
         ]);
-        if (201 !== $response->getStatusCode()) {
-            throw new Exception("couldnt create smart contract for $organizerAddress");
+
+        if (Response::HTTP_CREATED !== $response->getStatusCode()) {
+            throw new Exception("couldn't create smart contract for $organizerAddress");
         }
 
         $headers = $response->getHeaders();
@@ -65,20 +58,11 @@ class EthereumService
 
     private function api($method, $endpoint, $payload) {
 
-        $serviceUrl = [
-            $this->ethereumServiceUrl,
-            $this->endpoint
-        ];
-        
-        $url = "{$this->ethereumServiceUrl}/$endpoint"; 
+        $url = "{$this->ethereumServiceUrl}/$endpoint";
 
-        $response = $this->httpClient->request($method, $endpoint, [
+        $response = $this->httpClient->request($method, $url, [
             "json" => $payload
         ]);
-
-        if (200 !== $response->getStatusCode() ) {
-            // TODO
-        }
 
         return $response;
     }
