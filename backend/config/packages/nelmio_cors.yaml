@@ -2,6 +2,7 @@ nelmio_cors:
     defaults:
         origin_regex: false
         allow_origin: '*'
+        forced_allow_origin_value: '*'
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: '*'
         expose_headers: ['Link']
