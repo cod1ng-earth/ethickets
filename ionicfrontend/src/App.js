@@ -11,24 +11,14 @@ import {
   IonCardSubtitle
 } from '@ionic/react';
 
-const Modal = () => {
-  
-  const [show, setShow] = useState(true);
-  
-  return <IonModal
-    isOpen={show}
-    onDidDismiss={() => this.setState(() => ({ showModal: false}))}
-  >
-    Some content to display in the modal.
-  </IonModal>
-}
+import Modal from './components/Modal'
 
 class App extends Component {
   render() {
     return (
       <IonApp>
         <IonContent>
-          <Modal />
+          <Modal show={true} />
           <IonCard>
             <IonCardHeader>
               <IonCardSubtitle>Welcome to Ionic</IonCardSubtitle>
