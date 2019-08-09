@@ -30,6 +30,7 @@
     "readable-stream": "^1.0.33",
     "stream-browserify": "^1.0.0",
     "url": "^0.10.3",
+    "vm-browserify": "0.0.4",
     "web3": "^1.2.1"
   },
   "devDependencies": {
@@ -60,7 +61,8 @@
     "console": "console-browserify",
     "path": "path-browserify",
     "fs": "react-native-level-fs",
-    "dgram": "react-native-udp"
+    "dgram": "react-native-udp",
+    "vm": "vm-browserify"
   },
   "browser": {
     "crypto": "react-native-crypto",
@@ -76,6 +78,7 @@
     "console": "console-browserify",
     "path": "path-browserify",
     "fs": "react-native-level-fs",
-    "dgram": "react-native-udp"
+    "dgram": "react-native-udp",
+    "vm": "vm-browserify"
   }
 }
