@@ -19,33 +19,8 @@ export default class BuyModal extends React.Component {
   
     constructor(props) {
         super(props)
-        this.state = {
-            account: null,
-            balance: 0,
-        }
-
     }
     
-    async getBalance(account) {
-        const balance = await web3.eth.getBalance(account.address);
-        return balance
-    }
-
-    async addAccountToWallet(privateKey) {
-        const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-        return await web3.eth.accounts.wallet.add(account)
-    }
-
-    async componentDidMount() {
-        
-        const account = await this.addAccountToWallet(attendeePrivateKey);
-        const balance = await this.getBalance(account);
-        this.setState({
-            account: account,
-            balance: balance
-        })
-    }
-
     render() {
         return <IonModal 
         isOpen={this.props.item !== null}
@@ -54,9 +29,7 @@ export default class BuyModal extends React.Component {
           }
       >
            <IonContent>
-            <IonChip>
-             <IonLabel>{this.state.balance}</IonLabel>
-            </IonChip>
+            
             {this.props.item &&
 
                 <IonText>
