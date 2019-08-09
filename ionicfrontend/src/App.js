@@ -1,5 +1,4 @@
 import React, { useState, Component } from 'react';
-
 import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import {
@@ -13,23 +12,14 @@ import {
 } from '@ionic/react';
 import EventScreen from "./components/EventScreen";
 
-const Modal = () => {
-  
-  const [show, setShow] = useState(true);
-  
-  return <IonModal
-    isOpen={show}
-    onDidDismiss={() => this.setState(() => ({ showModal: false}))}
-  >
-    Some content to display in the modal.
-  </IonModal>
-}
+import Modal from './components/Modal'
 
 class App extends Component {
   render() {
       return (
           <IonApp>
             <IonContent>
+                <Modal show={true} />
               <EventScreen />
               <IonCard>
                 <IonCardHeader>
