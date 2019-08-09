@@ -27,7 +27,7 @@ class EventType  extends AbstractType
                 'label' => 'Amount of available tickets'
             ])
             ->add('ticketPrice', null, [
-                'label' => 'Ticket price in Euro'
+                'label' => 'Ticket price in wei'
             ])
             ->add('startDate', null, ['widget' => 'single_text'])
             ->add('endDate', null, ['widget' => 'single_text'])
