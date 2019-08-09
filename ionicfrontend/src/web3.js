@@ -17,8 +17,22 @@ async function addAccountToWallet(privateKey) {
     return await web3.eth.accounts.wallet.add(account)
 }
 
+async function attend(account, contractAddress, ticketPriceWei) {
+    
+    const contractInstance = new web3.eth.Contract(contractAbi, contractAddress);
+    const gasPrice = web3.utils.toWei('100','gwei')
+    const txhash = await contractInstance.methods.requestTicket(account.address).send({
+        from: account.address,
+        gas: 300000,
+        gasPrice: gasPrice,
+        value: ticketPriceWei
+    });
+    return txhash;
+}
+
 export {
     web3,
     getBalance,
-    addAccountToWallet
+    addAccountToWallet,
+    attend
 }
