@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { IonList, IonItem, IonLabel, IonInput, IonToggle, IonRadio, IonCheckbox, IonItemSliding, IonItemOption, IonItemOptions, IonContent } from '@ionic/react';
+import { IonList, IonItem, IonLabel, IonButton, IonToggle, IonRadio, IonCheckbox, IonItemSliding, IonItemOption, IonItemOptions, IonContent } from '@ionic/react';
 import Header from './Header';
 
 export default class EventListItem extends Component {
@@ -10,14 +10,13 @@ export default class EventListItem extends Component {
 
     render() {
         return (
-                <IonItem>
-                    <IonItem>
-                        <IonLabel>{this.props.title}</IonLabel>
-                        <IonLabel>
-                            {this.props.description.toString().slice(0, 80)}
-                        </IonLabel>
-                    </IonItem>
-                </IonItem>
+            <IonItem>
+                <IonLabel>{this.props.name}</IonLabel>
+                <IonLabel>
+                    {this.props.description.toString().slice(0, 80)}
+                </IonLabel>
+                <IonButton>Buy</IonButton>
+            </IonItem>
         );
     }
 }

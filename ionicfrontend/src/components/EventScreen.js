@@ -7,7 +7,7 @@ export default class EventScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fetchList: null,
+            fetchList: [],
             chosenEvent: false,
             loading: true
         }
@@ -39,7 +39,7 @@ export default class EventScreen extends Component {
                     <IonContent>
                         <IonList>
                         {this.state.fetchList.map(item => (
-                            <EventListItem title={item.title} description={item.description}/>
+                            <EventListItem {...item}/>
                         ))}
                         </IonList>
                     </IonContent>
