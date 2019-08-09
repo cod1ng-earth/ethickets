@@ -4,15 +4,12 @@ import { IonHeader, IonContent, IonToolbar, IonButtons, IonBackButton, IonTitle,
 
 
 export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
         <IonHeader>
             <IonToolbar>
-                <IonImg src={'ethicket_logo_name.png'} />
+                <IonImg src={'ethicket_logo_name.png'} style={{width: 200}} />
                 <IonTitle>{this.props.title}</IonTitle>
             </IonToolbar>
         </IonHeader>
