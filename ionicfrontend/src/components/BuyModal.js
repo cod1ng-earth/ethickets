@@ -15,16 +15,16 @@ export default class BuyModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            txhash: null
+            transaction: null
         }
     }
     
     async buy() {
         console.log()
-        const txhash = await w3.attend(this.props.account, this.props.item.ethContractAddress, this.props.item.ticketPrice)
-        console.log(txhash)
+        const transaction = await w3.attend(this.props.account, this.props.item.ethContractAddress, this.props.item.ticketPrice)
+        console.log(transaction)
         this.setState({
-            txhash
+            transaction
         })
     }
 
@@ -43,8 +43,8 @@ export default class BuyModal extends React.Component {
                     {this.props.item.name}
                 </IonText>
 
-                {this.state.txhash ?
-                <IonText>you're in!! {this.state.txhash} </IonText>
+                {this.state.transaction ?
+                <IonText>you're in!! {this.state.transaction.transactionHash} </IonText>
                 : <IonButton onClick={() => this.buy()}>
                 pay {this.props.item.ticketPrice}wei to {this.props.item.ethContractAddress}
             </IonButton>

@@ -34,21 +34,9 @@ class App extends Component {
       <IonApp>
         
         <IonContent>
-
-          <IonFab vertical="top" horizontal="end" slot="fixed">
-            <IonFabButton onClick={this.toggleModal}>
-              <IonIcon name="add"  />
-            </IonFabButton>
-          </IonFab>
-
-          
+         
           <EventScreen />
-          <IonCard>
-            <IonCardHeader>
-              <IonCardSubtitle>Welcome to Ionic</IonCardSubtitle>
-              <IonCardTitle>Running on React</IonCardTitle>
-            </IonCardHeader>
-          </IonCard>
+          
         </IonContent>
       </IonApp>
     );

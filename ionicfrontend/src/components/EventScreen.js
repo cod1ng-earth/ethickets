@@ -48,19 +48,20 @@ export default class EventScreen extends Component {
                 </IonContent>
             );
         } else {
-           
+            
             return (
                 <IonContent>
                     <Header title={'Event List'}/>
                     <IonChip>
                         <IonLabel>{this.state.balance}</IonLabel>
                     </IonChip>
+
                     <BuyModal item={this.state.buyItem} account={this.state.account} closed={this.bought}></BuyModal>
                     <IonContent>
 
                         <IonList>
                         {this.state.fetchList.map(item => (
-                            <EventListItem key={item.id} {...item} onBuy={() => this.setState({buyItem: item})} />
+                            <EventListItem key={item.id} account={this.state.account} {...item} onBuy={() => this.setState({buyItem: item})} />
                         ))}
                         </IonList>
                     </IonContent>
